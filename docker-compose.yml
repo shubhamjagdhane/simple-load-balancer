@@ -1,0 +1,21 @@
+version: '3'
+services:
+  simple-load-balancer:
+    container_name: simpleloadbalancer
+    restart: always
+    build: .
+    ports:
+      - 9000:9000
+    networks:
+      static_ip:
+        ipv4_address: 172.18.1.1
+
+
+networks:
+  static_ip:
+    name: simple-load-balancer-network
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/20          
+
