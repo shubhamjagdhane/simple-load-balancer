@@ -56,6 +56,10 @@ func updateTracking(proxy *entity.ServerPool) {
 }
 
 func isActiveServer(proxy *entity.ServerPool) bool {
+	if isEmptyString(proxy.Url) {
+		return false
+	}
+
 	res, err := http.Head(proxy.Url)
 	if err != nil || res.StatusCode != http.StatusOK {
 		return false
@@ -72,4 +76,8 @@ func setHealthyFlag(proxy *entity.ServerPool) {
 			proxy.Health = false
 		}
 	}
+}
+
+func isEmptyString(str string) bool {
+	return str == ""
 }
