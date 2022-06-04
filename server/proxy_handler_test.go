@@ -22,7 +22,8 @@ func TestIsActiveServer(t *testing.T) {
 			name: "Success: Returns true if server is active",
 			arg: param{
 				proxy: &entity.ServerPool{
-					Url: "http://google.com",
+					Url:    "http://google.com",
+					Health: true,
 				},
 			},
 			want: true,
