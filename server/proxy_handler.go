@@ -28,8 +28,8 @@ func (s *Server) getHealthyServer() *httputil.ReverseProxy {
 			proxy := s.serverPool[currentIndex]
 
 			setHealthyFlag(proxy)
+			updateTracking(proxy)
 			if isActiveServer(proxy) {
-				updateTracking(proxy)
 				s.serverPool[currentIndex] = proxy
 				s.selectedServerIndex = (currentIndex + 1) % totalServers
 				return proxy.ReverseProxy
@@ -64,7 +64,7 @@ func isActiveServer(proxy *entity.ServerPool) bool {
 	if err != nil || res.StatusCode != http.StatusOK {
 		return false
 	}
-	return true
+	return proxy.Health
 }
 
 func setHealthyFlag(proxy *entity.ServerPool) {
